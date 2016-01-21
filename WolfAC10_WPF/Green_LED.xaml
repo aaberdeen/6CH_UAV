@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="WolfAC10_WPF.Green_LED"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="50">
+    <UserControl.Resources>
+        <BitmapImage x:Key="LED" UriSource="images\green-led.png"></BitmapImage>
+        <!--<BitmapImage x:Key="redLED" UriSource="images\red-led.png"></BitmapImage>-->
+    </UserControl.Resources>
+    <Grid>
+        <Image x:Name="ENABLE_STKA_pictureBox"  Stretch="Fill">
+            <Image.Style>
+                <Style TargetType="{x:Type Image}">
+                    <Setter Property="Source" Value="images\gray-led.png" />
+                    <Style.Triggers>
+                        <DataTrigger  Binding="{Binding Path=picState}" Value="True">
+                            <Setter Property="Source" Value="{DynamicResource LED}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=picState}" Value="False" >
+                            <Setter Property="Source" Value="images\gray-led.png" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
+    </Grid>
+</UserControl>

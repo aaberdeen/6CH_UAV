@@ -1,0 +1,315 @@
+﻿<Window x:Class="WolfAC10_WPF.MainWindow"
+        xmlns:local="clr-namespace:WolfAC10_WPF"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d3="http://research.microsoft.com/DynamicDataDisplay/1.0"
+        
+        Title="Intelligent-Energy - 6ch UAV" Height="729" Width="1488">
+    <Window.Resources>
+        <ResourceDictionary>
+            <BitmapImage  x:Key="dcdc" UriSource="images\dcdc.png"></BitmapImage>
+            <BitmapImage  x:Key="dcdc_red" UriSource="images\dcdc_red.png"></BitmapImage>
+            <BitmapImage  x:Key="dcdc_green" UriSource="images\dcdc_green.png"></BitmapImage>
+            <BitmapImage  x:Key="M_100" UriSource="images\M_100.jpg"></BitmapImage>
+            <BitmapImage  x:Key="M_100_Green" UriSource="images\M_100_Green.jpg"></BitmapImage>
+            <BitmapImage  x:Key="M_100_Red" UriSource="images\M_100_red.jpg"></BitmapImage>
+            <BitmapImage  x:Key="diode" UriSource="images\diode.png"></BitmapImage>
+            <BitmapImage  x:Key="diode_green" UriSource="images\diode_green.png"></BitmapImage>
+            <BitmapImage  x:Key="diode_red" UriSource="images\diode_red.png"></BitmapImage>
+        </ResourceDictionary>
+    </Window.Resources>
+
+
+
+    <Grid Margin="0,0,0,3">
+        <Grid.OpacityMask>
+            <SolidColorBrush Color="Blue"/>
+        </Grid.OpacityMask>
+        <Grid.Background>
+            <ImageBrush ImageSource="images/logo.jpg" Opacity="0.25" TileMode="None" AlignmentY="Top" Viewbox="0,0,1.5,1" Viewport="-0.6,-0.5,2.4,2">
+                <ImageBrush.RelativeTransform>
+                    <TransformGroup>
+                        <ScaleTransform CenterY="0.5" CenterX="0.5" ScaleX="0.5" ScaleY="0.5"/>
+                        <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                        <RotateTransform CenterY="0.5" CenterX="0.5"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ImageBrush.RelativeTransform>
+            </ImageBrush>
+        </Grid.Background>
+        <Menu Height="33" VerticalAlignment="Top">
+            <MenuItem Header="Device">
+                <MenuItem Header="Connect" Click="MenuItem_Click"></MenuItem>
+                <MenuItem Header="Disconnect" Click="MenuItem_Click_3" ></MenuItem>
+                <MenuItem Header="Exit" Click="MenuItem_Click_1"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Data"  PreviewMouseDown="MenuItem_PreviewMouseDown" >
+                <MenuItem Header="Log Setup" Click="MenuItem_Click_2"></MenuItem>
+                <MenuItem x:Name="enableLoggingToolStripMenuItem" Header="Enable Logging" Click="enableLoggingToolStripMenuItem_Click"  />
+            </MenuItem>
+            <ComboBox x:Name="comboBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="97" PreviewMouseLeftButtonDown="comboBox1_PreviewMouseLeftButtonDown"/>
+        </Menu>
+        <GroupBox Header="Valves PWM" HorizontalAlignment="Left" Margin="227,41,0,0" VerticalAlignment="Top" Height="138" Width="97">
+            <Grid Margin="0,0,-2,2">
+                <Grid.Effect>
+                    <DropShadowEffect/>
+                </Grid.Effect>
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                        <GradientStop Color="#FF05499B" Offset="1"/>
+                        <GradientStop Color="#FF04A1FB" Offset="0.352"/>
+                        <GradientStop Color="#FF0AACFD" Offset="1"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+            </Grid>
+
+        </GroupBox>
+        <GroupBox Header="Fans PWM" HorizontalAlignment="Left" Margin="227,184,0,0" VerticalAlignment="Top" Height="139" Width="98">
+            <Grid Margin="0,0,-2,2">
+                <Grid.Effect>
+                    <DropShadowEffect/>
+                </Grid.Effect>
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                        <GradientStop Color="#FF05499B" Offset="1"/>
+                        <GradientStop Color="#FF04A1FB" Offset="0.352"/>
+                        <GradientStop Color="#FF0AACFD" Offset="1"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+            </Grid>
+        </GroupBox>
+
+
+        <GroupBox Header="USART" HorizontalAlignment="Left" Margin="9,41,0,0" VerticalAlignment="Top" Height="148" Width="123" >
+
+
+            <Grid Margin="0,0,-2,2">
+                <Grid.Effect>
+                    <DropShadowEffect/>
+                </Grid.Effect>
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                        <GradientStop Color="#FF05499B" Offset="1"/>
+                        <GradientStop Color="#FF04A1FB" Offset="0.352"/>
+                        <GradientStop Color="#FF0AACFD" Offset="1"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="63*"/>
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="EXT_5V_sevenSegmentArray" HorizontalAlignment="Left" Margin="7,10,0,0" TextWrapping="Wrap"  Text="{Binding Path=info.EXT_5V, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="73" Height="29" FontFamily="Consolas" FontSize="24" Grid.ColumnSpan="2" Grid.Row="0"/>
+                <Label Content="mV" HorizontalAlignment="Left" Margin="2,15,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.679,0.538" Height="26" Width="28" Grid.Column="2" Grid.RowSpan="2"/>
+                <TextBlock x:Name="RX_Error" HorizontalAlignment="Left" Margin="7,10,0,0" TextWrapping="Wrap"  Text="{Binding Path=info.RX_Error, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="73" Height="29" FontFamily="Consolas" FontSize="24" Grid.ColumnSpan="2" Grid.Row="1" />
+                <Label Content="Bd" HorizontalAlignment="Left" Margin="2,15,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.679,0.538" Height="26" Width="28" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
+                <TextBlock x:Name="RX_Good" HorizontalAlignment="Left" Margin="7,10,0,0" TextWrapping="Wrap"  Text="{Binding Path=info.RX_Good, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="73" Height="29" FontFamily="Consolas" FontSize="24" Grid.ColumnSpan="2" Grid.Row="2" />
+                <Label Content="Gd" HorizontalAlignment="Left" Margin="2,15,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.679,0.538" Height="26" Width="28" Grid.Column="2" Grid.Row="2"/>
+            </Grid>
+
+
+
+        </GroupBox>
+
+
+        <local:IVPpanel x:Name="STACKA1_grouper" VerticalAlignment="Top" Height="90" Margin="450,35,0,0" 
+                        Title="Ch A1" 
+                        Volt="{Binding Path=ch_A1.Volt, UpdateSourceTrigger=PropertyChanged}" 
+                        Amp="{Binding Path=ch_A1.Amp, UpdateSourceTrigger=PropertyChanged}"
+                        Watt="{Binding Path=ch_A1.LOAD, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
+        <local:IVPpanel x:Name="STACKA2_grouper" VerticalAlignment="Top" Height="90" Margin="450,129,0,0" 
+                        Title="Ch A2" 
+                        Volt="{Binding Path=ch_A2.Volt, UpdateSourceTrigger=PropertyChanged}" 
+                        Amp="{Binding Path=ch_A2.Amp, UpdateSourceTrigger=PropertyChanged}"
+                        Watt="{Binding Path=ch_A2.LOAD, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
+        <local:IVPpanel x:Name="STACKA3_grouper" VerticalAlignment="Top" Height="90" Margin="450,222,0,0" 
+                        Title="Ch A3" 
+                        Volt="{Binding Path=ch_A2.Volt, UpdateSourceTrigger=PropertyChanged}" 
+                        Amp="{Binding Path=ch_A2.Amp, UpdateSourceTrigger=PropertyChanged}"
+                        Watt="{Binding Path=ch_A2.LOAD, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
+
+        <local:IVPpanel x:Name="STACKB1_grouper" VerticalAlignment="Top" Height="90" Margin="450,315,0,0" 
+                        Title="Ch B1" 
+                        Volt="{Binding Path=ch_B1.Volt, UpdateSourceTrigger=PropertyChanged}" 
+                        Amp="{Binding Path=ch_B1.Amp, UpdateSourceTrigger=PropertyChanged}"
+                        Watt="{Binding Path=ch_B1.LOAD, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
+        <local:IVPpanel x:Name="STACKB2_grouper" VerticalAlignment="Top" Height="90" Margin="450,408,0,0" 
+                        Title="Ch B2" 
+                        Volt="{Binding Path=ch_B2.Volt, UpdateSourceTrigger=PropertyChanged}" 
+                        Amp="{Binding Path=ch_B2.Amp, UpdateSourceTrigger=PropertyChanged}"
+                        Watt="{Binding Path=ch_B2.LOAD, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
+        <local:IVPpanel x:Name="STACKB3_grouper" VerticalAlignment="Top" Height="90" Margin="450,502,0,0" 
+                        Title="Ch B3" 
+                        Volt="{Binding Path=ch_B2.Volt, UpdateSourceTrigger=PropertyChanged}" 
+                        Amp="{Binding Path=ch_B2.Amp, UpdateSourceTrigger=PropertyChanged}"
+                        Watt="{Binding Path=ch_B2.LOAD, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
+
+        <local:IVPpanel x:Name="BATOP_grouper" VerticalAlignment="Top" Height="90" Margin="450,597,0,0" 
+                        Title="Batt O/P" 
+                        Volt="{Binding Path=bat_op.Volt, UpdateSourceTrigger=PropertyChanged}" 
+                        Amp="{Binding Path=bat_op.Amp, UpdateSourceTrigger=PropertyChanged}"
+                        Watt="{Binding Path=bat_op.LOAD, UpdateSourceTrigger=PropertyChanged}" Width="200" HorizontalAlignment="Left"/>
+        <local:IVPpanel x:Name="BATIP_grouper" VerticalAlignment="Top" Height="90" Margin="10,596,0,0" 
+                        Title="Batt I/P" 
+                        Volt="{Binding Path=bat_ip.Volt, UpdateSourceTrigger=PropertyChanged}" 
+                        Amp="{Binding Path=bat_ip.Amp, UpdateSourceTrigger=PropertyChanged}"
+                        Watt="{Binding Path=bat_ip.LOAD, UpdateSourceTrigger=PropertyChanged}" Width="200" HorizontalAlignment="Left"/>
+        
+        <local:IVPpanel x:Name="LOAD_grouper" VerticalAlignment="Top" Height="90" Margin="779,38,0,0" 
+                        Title="Load" 
+                        Volt="{Binding Path=load.Volt, UpdateSourceTrigger=PropertyChanged}" 
+                        Amp="{Binding Path=load.Amp, UpdateSourceTrigger=PropertyChanged}"
+                        Watt="{Binding Path=load.LOAD, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
+
+        <Grid Margin="1108,38,0,32">
+            <local:Terminal_Window Margin="0,0,0,28" toSend="{Binding Path=info.toSend,Mode=TwoWay}" >
+               
+            </local:Terminal_Window>
+            <TextBox Name="txtSendData" HorizontalAlignment="Left" TextWrapping="Wrap" Text="TextBox" Width="372" Height="23" VerticalAlignment="Bottom" PreviewKeyDown="txtSendData_PreviewKeyDown"  />
+        </Grid>
+        <GroupBox x:Name="IDEAL_grouper" Header="Ideal Diode A" HorizontalAlignment="Left" Margin="670,35,0,0" VerticalAlignment="Top" Height="277" Width="91">
+            <GroupBox.Effect>
+                <DropShadowEffect/>
+            </GroupBox.Effect>
+            <Grid Margin="0,0,-2,0" Height="255" VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="55"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="55"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="55"/>
+                    <RowDefinition Height="23"/>
+                    <RowDefinition Height="23"/>
+
+                </Grid.RowDefinitions>
+                <Button Name="ENABLE_A_button" Content="Enable" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Top" Width="75" Margin="0,0,0,0" Grid.RowSpan="1" Click="ENABLE_A_button_Click"/>
+                <Button Name="DISABLE_A_button" Content="Disale" HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Top" Width="75" Click="DISABLE_A_button_Click"/>
+                <local:Diode x:Name="ENABLE_STKA_pictureBox1" Grid.RowSpan="1" Grid.Row="0" VerticalAlignment="Top"  picState="{Binding Path=info.ENABLE_STKA, UpdateSourceTrigger=PropertyChanged}"></local:Diode>
+                <local:Diode x:Name="ENABLE_STKA_pictureBox2" Grid.RowSpan="1" Grid.Row="2" VerticalAlignment="Top"  picState="{Binding Path=info.ENABLE_STKA, UpdateSourceTrigger=PropertyChanged}"></local:Diode>
+                <local:Diode x:Name="ENABLE_STKA_pictureBox3" Grid.RowSpan="1" Grid.Row="4" VerticalAlignment="Top"  picState="{Binding Path=info.ENABLE_STKA, UpdateSourceTrigger=PropertyChanged}"></local:Diode>
+
+                <!--<Image x:Name="ENABLE_STKA_pictureBox" HorizontalAlignment="Left" Height="50" Grid.RowSpan="2" VerticalAlignment="Top" Width="81" Source="{StaticResource diode}" Stretch="Fill"/>-->
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="IDEAL_grouperB" Header="Ideal Diode B" HorizontalAlignment="Left" Margin="670,315,0,0" VerticalAlignment="Top" Height="276" Width="91">
+            <GroupBox.Effect>
+                <DropShadowEffect/>
+            </GroupBox.Effect>
+            <Grid Margin="0,0,-2,0" Height="255" VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="55"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="55"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="55"/>
+                    <RowDefinition Height="23"/>
+                    <RowDefinition Height="23"/>
+
+                </Grid.RowDefinitions>
+                <Button x:Name="ENABLE_B_button" Content="Enable" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Top" Width="75" Margin="0,0,0,0" Grid.RowSpan="1" Click="ENABLE_B_button_Click"/>
+                <Button x:Name="DISABLE_B_button" Content="Disale" HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Top" Width="75" Click="DISABLE_B_button_Click"/>
+                <local:Diode x:Name="ENABLE_STKB_pictureBox2" Grid.RowSpan="1" Grid.Row="0" VerticalAlignment="Top"  picState="{Binding Path=info.ENABLE_STKB, UpdateSourceTrigger=PropertyChanged}"></local:Diode>
+                <local:Diode x:Name="ENABLE_STKB_pictureBox3" Grid.RowSpan="1" Grid.Row="4" VerticalAlignment="Top"  picState="{Binding info.ENABLE_STKB, UpdateSourceTrigger=PropertyChanged}"/>
+                <local:Diode x:Name="ENABLE_STKB_pictureBox1" Grid.RowSpan="1" Grid.Row="2" VerticalAlignment="Top" picState="{Binding info.ENABLE_STKB, UpdateSourceTrigger=PropertyChanged}"/>
+                <!--<Image x:Name="ENABLE_STKB_pictureBox" HorizontalAlignment="Left" Height="50" Grid.RowSpan="2" VerticalAlignment="Top" Width="81" Source="{StaticResource diode}" Stretch="Fill"/>-->
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="IDEAL_grouper_BAT" Header="Ideal Diode Bat" HorizontalAlignment="Left" Margin="215,596,0,0" VerticalAlignment="Top" Height="90" Width="98">
+            <GroupBox.Effect>
+                <DropShadowEffect/>
+            </GroupBox.Effect>
+            <Grid Margin="0,0,-2,0" Height="56" VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="21"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="21"/>
+                    <RowDefinition Height="83"/>
+
+                </Grid.RowDefinitions>
+                <local:Diode x:Name="ENABLE_BAT_pictureBox" Grid.RowSpan="2" VerticalAlignment="Top"  picState="{Binding Path=info.ENABLE_BAT, UpdateSourceTrigger=PropertyChanged}"></local:Diode>
+                <!--<Image x:Name="ENABLE_BAT_pictureBox" HorizontalAlignment="Left" Height="50" Grid.RowSpan="2" VerticalAlignment="Top" Width="81" Source="{StaticResource diode}" Stretch="Fill"/>-->
+            </Grid>
+        </GroupBox>
+        <GroupBox Name="RED_grouper" Header="RED" HorizontalAlignment="Left" Margin="10,273,0,0" VerticalAlignment="Top" Height="53" Width="154">
+            <Grid Height="51" Margin="-6,-15,-2,-5" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Name="RED_LED_EN_button" Content="ENABLE" HorizontalAlignment="Left" Margin="5,19,0,0" VerticalAlignment="Top" Width="65" Click="RED_LED_EN_button_Click"/>
+                <Button Name="RED_LED_DIS_button" Content="DISABLE" Grid.Column="1" HorizontalAlignment="Left" Margin="3,19,0,0" VerticalAlignment="Top" Width="68" Click="RED_LED_DIS_button_Click"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="GREEN_grouper" Header="GREEN" HorizontalAlignment="Left" Margin="10,331,0,0" VerticalAlignment="Top" Height="53" Width="154">
+            <Grid Height="51" Margin="-6,-15,-2,-5" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="GREEN_LED_EN_button" Content="ENABLE" HorizontalAlignment="Left" Margin="5,19,0,0" VerticalAlignment="Top" Width="65" Click="GREEN_LED_EN_button_Click"/>
+                <Button x:Name="GREEN_LED_DIS_button" Content="DISABLE" Grid.Column="1" HorizontalAlignment="Left" Margin="3,19,0,0" VerticalAlignment="Top" Width="68" Click="GREEN_LED_DIS_button_Click"/>
+            </Grid>
+        </GroupBox>
+        <Button x:Name="test_button" Content="Test" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="779,271,0,0" Click="test_button_Click"/>
+        <local:Green_LED x:Name="green" VerticalAlignment="Top"  picState="{Binding Path=info.GREEN_LED, UpdateSourceTrigger=PropertyChanged}" Height="38" Margin="149,55,0,0" HorizontalAlignment="Left" Width="51"/>
+        <local:Red_LED x:Name="red" VerticalAlignment="Top"  picState="{Binding Path=info.RED_LED, UpdateSourceTrigger=PropertyChanged}" Height="40" Margin="149,133,0,0" HorizontalAlignment="Left" Width="51"/>
+        <Button Name="Send_Button" Content="Send" Margin="1108,0,0,5" Click="Send_Button_Click" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75"/>
+        <CheckBox x:Name="HYDRATEA_CB" Content="HYDRATEA" IsChecked="{Binding info.HYDRATEA, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="345,77,0,0" VerticalAlignment="Top" Width="97">
+            <CheckBox.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="#FF05499B" Offset="1"/>
+                    <GradientStop Color="#FF04A1FB" Offset="0.352"/>
+                    <GradientStop Color="#FF0AACFD" Offset="1"/>
+                </LinearGradientBrush>
+            </CheckBox.Background>
+            <CheckBox.Effect>
+                <DropShadowEffect/>
+            </CheckBox.Effect>
+        </CheckBox>
+        <CheckBox x:Name="HYDRATEB_CB" Content="HYDRATEB" IsChecked="{Binding info.HYDRATEB, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="345,448,0,0" VerticalAlignment="Top" Width="97">
+            <CheckBox.Effect>
+                <DropShadowEffect/>
+            </CheckBox.Effect>
+        </CheckBox>
+        <TextBlock x:Name="TempA" Background="Red" HorizontalAlignment="Left" Margin="344,41,0,0" TextWrapping="Wrap"  Text="{Binding info.TempA, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="73" Height="29" FontFamily="Consolas" FontSize="24" >
+            <TextBlock.Effect>
+                <DropShadowEffect/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock x:Name="TempB"  Background="Red"  HorizontalAlignment="Left" Margin="342,414,0,0" TextWrapping="Wrap"  Text="{Binding info.TempB, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="73" Height="29" FontFamily="Consolas" FontSize="24" >
+            <TextBlock.Effect>
+                <DropShadowEffect/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <Label Content="mC" Background="Red" HorizontalAlignment="Left" Margin="417,41,0,0" VerticalAlignment="Top" Width="27" Height="29">
+            <Label.Effect>
+                <DropShadowEffect/>
+            </Label.Effect>
+        </Label>
+        <Label Content="mC" Background="Red" HorizontalAlignment="Left" Margin="415,414,0,0" VerticalAlignment="Top" Width="27" Height="29">
+            <Label.Effect>
+                <DropShadowEffect/>
+            </Label.Effect>
+        </Label>
+        <TextBlock x:Name="TempA_Copy" Background="BurlyWood" HorizontalAlignment="Left" Margin="76,461,0,0" TextWrapping="Wrap"  Text="{Binding info.IdcdcLimit, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="73" Height="29" FontFamily="Consolas" FontSize="24" />
+        <Label Content="mA" Background="BurlyWood" HorizontalAlignment="Left" Margin="149,461,0,0" VerticalAlignment="Top" Width="29" Height="29"/>
+        <Label Content="IdcdcLimit" Background="BurlyWood" HorizontalAlignment="Left" Margin="9,461,0,0" VerticalAlignment="Top" Width="67" Height="29"/>
+        <TextBlock x:Name="TempA_Copy1" Background="BurlyWood" HorizontalAlignment="Left" Margin="76,490,0,0" TextWrapping="Wrap"  Text="{Binding info.StkPreload, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="73" Height="29" FontFamily="Consolas" FontSize="24" />
+        <Label Content="mV" Background="BurlyWood" HorizontalAlignment="Left" Margin="149,490,0,0" VerticalAlignment="Top" Width="29" Height="29"/>
+        <Label Content="StkPreload" Background="BurlyWood" HorizontalAlignment="Left" Margin="9,490,0,0" VerticalAlignment="Top" Width="67" Height="29"/>
+        <TextBlock x:Name="TempA_Copy2" Background="BurlyWood" HorizontalAlignment="Left" Margin="76,519,0,0" TextWrapping="Wrap"  Text="{Binding info.Fan1, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="73" Height="29" FontFamily="Consolas" FontSize="24" />
+        <Label Content="%" Background="BurlyWood" HorizontalAlignment="Left" Margin="149,519,0,0" VerticalAlignment="Top" Width="29" Height="29"/>
+        <Label Content="Fan1" Background="BurlyWood" HorizontalAlignment="Left" Margin="9,519,0,0" VerticalAlignment="Top" Width="67" Height="29"/>
+        <TextBlock x:Name="TempA_Copy3" Background="BurlyWood" HorizontalAlignment="Left" Margin="76,548,0,0" TextWrapping="Wrap"  Text="{Binding info.Fan2, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="73" Height="29" FontFamily="Consolas" FontSize="24" />
+        <Label Content="%" Background="BurlyWood" HorizontalAlignment="Left" Margin="149,548,0,0" VerticalAlignment="Top" Width="29" Height="29"/>
+        <Label Content="Fan2" Background="BurlyWood" HorizontalAlignment="Left" Margin="9,548,0,0" VerticalAlignment="Top" Width="67" Height="29"/>
+        <Image HorizontalAlignment="Left" Height="81" Margin="318,605,0,0" VerticalAlignment="Top" Width="124" Source="images/batt_ch.png" Stretch="Fill"/>
+
+    </Grid>
+</Window>
